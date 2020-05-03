@@ -35,7 +35,7 @@ class ResultsComponent extends Component {
   };
 
   render() {
-    console.log("11111", this.props);
+    //  console.log("11111", this.props);
     console.log("this.props.results: ", this.props.results);
     const Table = () => {
       //  const searchedResults = this.props.results;
