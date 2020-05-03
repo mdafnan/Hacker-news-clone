@@ -1,21 +1,21 @@
-import { createStore, applyMiddleware, compose } from "redux";
+import { createStore } from "redux";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import rootReducer from "../reducers/rootReducers";
-
-//export const history = createHistory();
+import persistedDetails from "../reducers/reducer";
+import rootReducer from "../reducers/rootReducer";
 
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["persistedDetails"],
-};
 
+  whitelist: ["addReducer"],
+};
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export default function configureStore(initialState = {}) {
+export default function configureStore(initialState) {
   const store = createStore(persistedReducer, initialState);
 
   const persistor = persistStore(store);
+
   return { store, persistor };
 }

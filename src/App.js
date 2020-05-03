@@ -5,9 +5,13 @@ import "./App.css";
 import ResultsComponent from "./components/ResultsComponent";
 import LineChart from "react-linechart";
 import "../node_modules/react-linechart/dist/styles.css";
-import { Provider, connect } from "react-redux";
+import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import authenticateActions from "./reducers/actions/authenticate_actions";
+// import {
+//   incrementAction,
+//   decreaseAction,
+// } from "./reducers/actions/authenticate_actions";
 
 const DEFAULT_QUERY = "";
 const DEFAULT_PAGE = 0;
@@ -31,8 +35,6 @@ class App extends Component {
   }
   componentDidMount() {
     this.fetchSearchTopStories(this.state.query, this.state.page);
-    //this.props.dispatch(updateText("Afnan"));
-    this.props.authenticateActions.setOrgInfo("afnann");
   }
 
   fetchSearchTopStories = (query, page) => {
@@ -49,11 +51,12 @@ class App extends Component {
         //  console.log("res", res);
         const storyData = res.data;
         this.setState({ results: storyData, page: storyData.page });
+        this.props.authenticateActions.fetchData(storyData.hits);
       });
   };
 
   render() {
-    console.log("props data", this.props);
+    console.log("props data", this.props.persistedDetails.value);
     //   console.log("story data response", this.state.results);
     let lineData = [];
     this.state.results &&

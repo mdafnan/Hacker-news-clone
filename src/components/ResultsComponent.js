@@ -3,6 +3,9 @@ import "../App.css";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 import Button from "terra-button";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import authenticateActions from "../reducers/actions/authenticate_actions";
 
 TimeAgo.addLocale(en);
 
@@ -15,8 +18,16 @@ class ResultsComponent extends Component {
     this.state = {};
   }
 
+  upvote = (rowId) => {
+    this.props.persistedDetails.results.map((item) => {
+      if (rowId === item.objectID) {
+        this.props.authenticateActions.incrementAction(item.points);
+      }
+    });
+  };
+
   render() {
-    console.log("11111", this.props);
+    console.log("11111", this.props.persistedDetails.results);
     const Table = () => {
       //  const searchedResults = this.props.results;
       return (
@@ -35,13 +46,18 @@ class ResultsComponent extends Component {
               <div>News Details</div>
             </span>
           </div>
-          {this.props.results &&
-            this.props.results.hits /* .filter(isSearched(pattern)) */
+          {this.props.persistedDetails.results &&
+            this.props.persistedDetails.results /* .filter(isSearched(pattern)) */
               .map((item) => (
                 <div key={item.objectID} className="table-row">
                   <span style={{ width: "10%" }}>{item.num_comments}</span>
                   <span style={{ width: "10%" }}>{item.points}</span>
-                  <span style={{ width: "10%" }}></span>
+                  <span style={{ width: "10%" }}>
+                    <Button
+                      text="upvote"
+                      onClick={() => this.upvote(item.objectID)}
+                    ></Button>
+                  </span>
                   <span style={{ width: "70%", textAlign: "left" }}>
                     {item.title}{" "}
                     <span className="subject url-width">
@@ -75,4 +91,14 @@ class ResultsComponent extends Component {
   }
 }
 
-export default ResultsComponent;
+export const mapDispatchToProps = (dispatch) => ({
+  authenticateActions: bindActionCreators(authenticateActions, dispatch),
+});
+
+export const mapStateToProps = (state) => ({
+  persistedDetails: state.persistedDetails,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResultsComponent);
+
+// export default ResultsComponent;
