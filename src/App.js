@@ -7,15 +7,11 @@ import LineChart from "react-linechart";
 import "../node_modules/react-linechart/dist/styles.css";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import authenticateActions from "./reducers/actions/authenticate_actions";
-// import {
-//   incrementAction,
-//   decreaseAction,
-// } from "./reducers/actions/authenticate_actions";
+import hackerActions from "./reducers/actions/hackerActions";
 
 const DEFAULT_QUERY = "";
 const DEFAULT_PAGE = 0;
-const DEFAULT_HPP = 30;
+const DEFAULT_HPP = 20;
 const PATH_BASE = "https://hn.algolia.com/api/v1";
 const PATH_SEARCH = "/search";
 const PARAM_SEARCH = "query=";
@@ -48,15 +44,14 @@ class App extends Component {
         //"http://hn.algolia.com/api/v1/search?tags=comment,story_X"
       )
       .then((res) => {
-        //  console.log("res", res);
         const storyData = res.data;
         this.setState({ results: storyData, page: storyData.page });
-        this.props.authenticateActions.fetchData(storyData.hits);
+        this.props.hackerActions.fetchData(storyData.hits);
       });
   };
 
   render() {
-    console.log("props data", this.props.persistedDetails.value);
+    // console.log("props data", this.props);
     //   console.log("story data response", this.state.results);
     let lineData = [];
     this.state.results &&
@@ -71,13 +66,10 @@ class App extends Component {
     ];
     return (
       <>
-        {/* <ConnectedApp /> */}
         <div className="centered">
           <div className="parent-border">
             <div className="results-container">
-              <ResultsComponent results={this.state.results} />
-              {/* <div className="btn-alignment"> */}
-
+              <ResultsComponent />
               <div className="btn-alignment">
                 <Button
                   variant="de-emphasis"
@@ -108,6 +100,7 @@ class App extends Component {
               <LineChart
                 className="chart-class"
                 height={"400px"}
+                // width={"1000px"}
                 data={chartdata}
                 xLabel="id"
                 yLabel="Votes"
@@ -121,11 +114,13 @@ class App extends Component {
 }
 
 export const mapDispatchToProps = (dispatch) => ({
-  authenticateActions: bindActionCreators(authenticateActions, dispatch),
+  hackerActions: bindActionCreators(hackerActions, dispatch),
 });
 
 export const mapStateToProps = (state) => ({
-  persistedDetails: state.persistedDetails,
+  // persistedDetails: state.persistedDetails,
+  text: state.form.text,
+  results: state.form.results,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -84,6 +84,7 @@
 
 .hidebtn {
   color: #grey !important;
+  cursor: pointer;
 }
 
 .url-width {
@@ -132,11 +133,15 @@
   padding: 2px 10px;
 }
 
-/* .chart-class {
-  height: 200px;
-  width: 100%;
-} */
+.chart-class {
+}
 
 .results-container {
   border-bottom: 3px solid #ff8c00;
+}
+.arrow-up {
+  font-size: 20px;
+  font-weight: 900;
+  color: grey;
+  cursor: pointer;
 }
