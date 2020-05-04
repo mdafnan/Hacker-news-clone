@@ -1,33 +1,38 @@
-import { INCREMENT, HIDE, FETCH_DATA } from "./actions/hackerActionsTypes";
+import {
+  INCREMENT,
+  HIDE,
+  FETCH_DATA,
+  SHOW_LOADER,
+} from "./actions/hackerActionsTypes";
 
 const initialState = {
   value: 0,
   results: null,
-  hide: "initial",
+  hide: "",
+  showLoader: false,
 };
 
 const persistedDetails = (state = initialState, action) => {
-  // console.log("111111111111", action.results);
   const newState = Object.assign({}, state);
 
   switch (action.type) {
+    case SHOW_LOADER:
+      newState.showLoader = true;
+      return newState;
+
     case HIDE:
-      newState.hide = action.results;
+      for (var i = state.results.length - 1; i >= 0; --i) {
+        if (state.results[i].objectID == action.objId) {
+          state.results.splice(i, 1);
+        }
+      }
+      newState.hide = action.objId;
+      newState.results = state.results;
       return newState;
 
     case INCREMENT:
-      console.log("state.results", state.results);
-      console.log("action", action);
-      let newVar = newState.results;
-      newState.results = [];
-      Object.assign(
-        newVar.map((item) => {
-          if (item.objectID === action.rowId) {
-            item.points = action.value + 1;
-          }
-        })
-      );
-      newState.results = newVar;
+      newState.showLoader = false;
+      newState.results = action.value;
       return newState;
 
     case FETCH_DATA:

@@ -14,31 +14,25 @@ TimeAgo.addLocale(en);
 const timeAgo = new TimeAgo("en-US");
 
 class ResultsComponent extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {};
-  }
-
   upvote = (rowId) => {
-    console.log("123 called");
-    this.props.results.map((item) => {
-      if (rowId === item.objectID) {
-        this.props.hackerActions.incrementAction(item.points, rowId);
-      }
-    });
+    this.props.hackerActions.showLoader();
+
+    Object.assign(
+      this.props.results.map((item) => {
+        if (item.objectID === rowId) {
+          item.points = item.points + 1;
+        }
+      })
+    );
+    this.props.hackerActions.incrementAction(this.props.results);
   };
 
   hide = (objid) => {
-    // console.log("called hide button");
     this.props.hackerActions.hideAction(objid);
   };
 
   render() {
-    //  console.log("11111", this.props);
-    console.log("this.props.results: ", this.props.results);
     const Table = () => {
-      //  const searchedResults = this.props.results;
       return (
         <div className="table">
           <div className="table-header">
@@ -71,7 +65,7 @@ class ResultsComponent extends Component {
                     style={{ width: "5%" }}
                     onClick={() => this.upvote(item.objectID)}
                   >
-                    ^{/* <span ></span> */}
+                    ^
                   </span>
                   <span style={{ width: "85%", textAlign: "left" }}>
                     {item.title}{" "}
@@ -86,8 +80,6 @@ class ResultsComponent extends Component {
                     <span className="author">{item.author}</span>{" "}
                     <span className="subject">
                       {timeAgo.format(item.created_at_i)}{" "}
-                      {/* {moment().diff(item.created_at, "years", false)} */}
-                      {/* {moment(item.created_at_i).fromNow()} */}
                     </span>
                     <span className="subject hidebtn">
                       [
@@ -102,9 +94,7 @@ class ResultsComponent extends Component {
     };
     return (
       <>
-        <div>
-          <Table />{" "}
-        </div>
+        <div>{this.props.showLoader ? <h3>Loading...</h3> : <Table />}</div>
       </>
     );
   }
@@ -115,11 +105,10 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 export const mapStateToProps = (state) => ({
-  persistedDetails: state.persistedDetails,
   results: state.form.results,
   value: state.form.value,
+  showLoader: state.form.showLoader,
+  hide: state.form.hide,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ResultsComponent);
-
-// export default ResultsComponent;

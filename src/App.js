@@ -37,11 +37,6 @@ class App extends Component {
     axios
       .get(
         `${PATH_BASE}${PATH_SEARCH}?${PARAM_SEARCH}${query}&${PARAM_PAGE}${page}&${PARAM_HPP}${DEFAULT_HPP}`
-        // "https://hn.algolia.com/api/v1/search?tags=front_page"
-        //"https://hn.algolia.com/api/v1/search?query=bar&tags=comment"
-        // "https://hn.algolia.com/api/v1/items/7408055"
-        // "http://hn.algolia.com/api/v1/search_by_date?query=..."
-        //"http://hn.algolia.com/api/v1/search?tags=comment,story_X"
       )
       .then((res) => {
         const storyData = res.data;
@@ -51,8 +46,6 @@ class App extends Component {
   };
 
   render() {
-    // console.log("props data", this.props);
-    //   console.log("story data response", this.state.results);
     let lineData = [];
     this.state.results &&
       this.state.results.hits.map((data) => {
@@ -69,7 +62,7 @@ class App extends Component {
         <div className="centered">
           <div className="parent-border">
             <div className="results-container">
-              <ResultsComponent />
+              <ResultsComponent results={this.props.results} />
               <div className="btn-alignment">
                 <Button
                   variant="de-emphasis"
@@ -118,13 +111,8 @@ export const mapDispatchToProps = (dispatch) => ({
 });
 
 export const mapStateToProps = (state) => ({
-  // persistedDetails: state.persistedDetails,
-  text: state.form.text,
   results: state.form.results,
+  hide: state.form.hide,
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
-
-//const ConnectedApp = connect(mapStateToProps)(App);
-
-//export default App;

@@ -1,10 +1,9 @@
 import * as hackerActionTypes from "./hackerActionsTypes";
 
 const hackerActions = () => ({
-  incrementAction: (value, rowId) => ({
+  incrementAction: (value) => ({
     type: hackerActionTypes.INCREMENT,
     value,
-    rowId,
   }),
 
   fetchData: (results) => ({
@@ -12,9 +11,13 @@ const hackerActions = () => ({
     results,
   }),
 
-  hideAction: (results) => ({
+  hideAction: (objId) => ({
     type: hackerActionTypes.HIDE,
-    results,
+    objId,
+  }),
+
+  showLoader: () => ({
+    type: hackerActionTypes.SHOW_LOADER,
   }),
 });
 
