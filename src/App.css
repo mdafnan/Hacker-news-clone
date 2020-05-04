@@ -133,7 +133,9 @@
   padding: 2px 10px;
 }
 
-.chart-class {
+#chart-class {
+  height: 200px !important;
+  width: 100% !important;
 }
 
 .results-container {

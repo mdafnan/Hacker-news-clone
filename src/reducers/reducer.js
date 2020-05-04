@@ -6,7 +6,6 @@ import {
 } from "./actions/hackerActionsTypes";
 
 const initialState = {
-  value: 0,
   results: null,
   hide: "",
   showLoader: false,

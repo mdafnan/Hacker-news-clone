@@ -89,16 +89,13 @@ class App extends Component {
                 ></Button>
               </div>
             </div>
-            <div>
-              <LineChart
-                className="chart-class"
-                height={"400px"}
-                // width={"1000px"}
-                data={chartdata}
-                xLabel="id"
-                yLabel="Votes"
-              />
-            </div>
+            <LineChart
+              height={"400px"}
+              // width={"1200"}
+              data={chartdata}
+              xLabel="id"
+              yLabel="Votes"
+            />
           </div>
         </div>
       </>

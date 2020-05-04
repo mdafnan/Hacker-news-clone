@@ -5,9 +5,6 @@ import en from "javascript-time-ago/locale/en";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import hackerActions from "../reducers/actions/hackerActions";
-import moment from "moment";
-import "moment/locale/fr";
-import "moment/locale/es";
 
 TimeAgo.addLocale(en);
 
@@ -106,7 +103,6 @@ export const mapDispatchToProps = (dispatch) => ({
 
 export const mapStateToProps = (state) => ({
   results: state.form.results,
-  value: state.form.value,
   showLoader: state.form.showLoader,
   hide: state.form.hide,
 });
